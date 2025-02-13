@@ -1,129 +1,74 @@
-Title
-===
-Abstract:xxx
-## Papar Information
-- Title:  `paper name`
-- Authors:  `A`,`B`,`C`
-- Preprint: [https://arxiv.org/abs/xx]()
-- Full-preprint: [paper position]()
-- Video: [video position]()
+# Vite Project Setup
 
-## Install & Dependence
-- python
-- pytorch
-- numpy
+Welcome to the Vite project! Follow the instructions below to set up and run the project on your local machine.
 
-## Dataset Preparation
-| Dataset | Download |
-| ---     | ---   |
-| dataset-A | [download]() |
-| dataset-B | [download]() |
-| dataset-C | [download]() |
+## Prerequisites
 
-## Use
-- for train
-  ```
-  python train.py
-  ```
-- for test
-  ```
-  python test.py
-  ```
-## Pretrained model
-| Model | Download |
-| ---     | ---   |
-| Model-1 | [download]() |
-| Model-2 | [download]() |
-| Model-3 | [download]() |
+Make sure you have the following installed before proceeding:
 
+- [Node.js](https://nodejs.org/) (LTS version recommended)
+- [Git](https://git-scm.com/)
 
-## Main Directory Hierarchy
+## Installation
+
+### 1. Clone the Repository
+
+```sh
+git clone <your-repo-url>
 ```
-|—— .gitignore
-|—— api
-|    |—— .flaskenv
-|    |—— api.py
-|    |—— venv
-|—— public
-|    |—— vite.svg
-|—— src
-|    |—— App.css
-|    |—— App.jsx
-|    |—— assets
-|        |—— back_img.png
-|        |—— cyl.png
-|        |—— fashi.ico
-|        |—— fashi.png
-|        |—— KF_logo.png
-|        |—— khawaja-fashi.svg
-|        |—— Skills_img
-|            |—— cpp.svg
-|            |—— css.svg
-|            |—— html.svg
-|            |—— javascript.svg
-|            |—— py.svg
-|            |—— react.svg
-|            |—— tailwind.svg
-|        |—— Story_img.png
-|        |—— yoda.jpg
-|    |—— components
-|        |—— AboutSection
-|            |—— About.jsx
-|            |—— Cyl.jsx
-|            |—— Cylinder.jsx
-|            |—— FactItem.jsx
-|            |—— HorizontalScroller.jsx
-|            |—— ScrollItem.jsx
-|        |—— Control.jsx
-|        |—— Home
-|            |—— ClothBackground.jsx
-|            |—— HeroSection.jsx
-|            |—— Home.jsx
-|            |—— Meshes.jsx
-|            |—— NavBar.jsx
-|        |—— Loading
-|            |—— AnimatedSignature.jsx
-|            |—— Loading.jsx
-|            |—— LoadingBar.jsx
-|        |—— ProjectSection
-|        |—— Skills
-|            |—— skills.css
-|            |—— Skills.jsx
-|            |—— SkillsContainer.jsx
-|        |—— Transition
-|            |—— Transitions.jsx
-|    |—— index.css
-|    |—— main.jsx
-|    |—— utils
-|        |—— Images.js
-|—— tailwind.config.js
-|—— vite.config.js
+
+Replace `<your-repo-url>` with the actual URL of your repository.
+
+### 2. Navigate to the Project Directory
+
+```sh
+cd <project-folder>
 ```
-## Code Details
-### Tested Platform
-- software
-  ```
-  OS: Debian unstable (May 2021), Ubuntu LTS
-  Python: 3.8.5 (anaconda)
-  PyTorch: 1.7.1, 1.8.1
-  ```
-- hardware
-  ```
-  CPU: Intel Xeon 6226R
-  GPU: Nvidia RTX3090 (24GB)
-  ```
-### Hyper parameters
+
+Replace `<project-folder>` with the actual folder name of your cloned repository.
+
+### 3. Install Dependencies
+
+```sh
+npm install
 ```
+
+### 4. Start the Development Server
+
+```sh
+npm run dev
 ```
-## References
-- [paper-1]()
-- [paper-2]()
-- [code-1](https://github.com)
-- [code-2](https://github.com)
-  
+
+This will start the Vite development server. You should see the local development URL in the terminal (e.g., `http://localhost:5173/`).
+
+## Building for Production
+
+To create an optimized build, run:
+
+```sh
+npm run build
+```
+
+The output will be generated in the `dist` folder.
+
+## Running a Preview of the Build
+
+To preview the built project locally, run:
+
+```sh
+npm run preview
+```
+
+## Additional Scripts
+
+- `npm run lint` – Runs ESLint to check for code quality issues.
+- `npm run format` – Formats code using Prettier.
+
+## Contributing
+
+If you make any changes or improvements, feel free to submit a pull request!
+
 ## License
 
-## Citing
-If you use xxx,please use the following BibTeX entry.
-```
-```
+This project is licensed under MIT License.
+
