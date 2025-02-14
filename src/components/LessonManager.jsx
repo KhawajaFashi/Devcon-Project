@@ -27,7 +27,7 @@ const LessonManager = () => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Lesson Management</h2>
-      
+
       {/* Add New Lesson Form */}
       <form onSubmit={handleAddLesson} className="mb-8">
         <div className="space-y-4">

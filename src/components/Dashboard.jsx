@@ -25,11 +25,11 @@ const Dashboard = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">My Learning Dashboard</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="card">
           <h2 className="text-xl font-semibold mb-4">Overall Progress</h2>
-          <ProgressTracker 
+          <ProgressTracker
             totalCourses={enrolledCourses.length}
             averageProgress={
               enrolledCourses.reduce((acc, course) => acc + course.progress, 0) / enrolledCourses.length

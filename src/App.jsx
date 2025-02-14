@@ -69,15 +69,12 @@ function App() {
     description: "Learn the basics of proper breathing techniques for singing",
     videoUrl: "https://example.com/sample-video.mp4",
     notes: `
-      <h4>Key Points:</h4>
-      <ul>
-        <li>Understanding diaphragmatic breathing</li>
-        <li>Proper posture for optimal breath support</li>
-        <li>Exercises for breath control</li>
-      </ul>
-      
-      <h4>Practice Tips:</h4>
-      <p>Start with short phrases and gradually increase duration as you build strength and control.</p>
+      Key Points:\n
+        Understanding diaphragmatic breathing\n
+        Proper posture for optimal breath support\n
+        Exercises for breath control\n
+      Practice Tips:\n
+        Start with short phrases and gradually increase duration as you build strength and control.\n
     `
   };
 
@@ -162,7 +159,7 @@ function App() {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard userId="65ccf2c7a86b3ddd2f144f3e" userRole={userRole} />;
       case 'courses':
         return <CourseBrowser />;
       case 'lesson':
@@ -185,88 +182,81 @@ function App() {
       case 'upload':
         return <LessonUploader />;
       default:
-        return <Dashboard />;
+        return <Dashboard userId="65ccf2c7a86b3ddd2f144f3e" userRole={userRole} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 ">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4">
+      <nav className="bg-white shadow-sm w-[98vw]">
+        <div className="mx-20 px-4">
           <div className="flex justify-between h-16">
-            <div className="flex">
+            <div className="flex gap-5">
               <div className="flex-shrink-0 flex items-center">
                 <h1 className="text-xl font-bold text-indigo-600">VocalMaster</h1>
               </div>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <div className="sm:ml-6 sm:flex sm:space-x-8 ">
                 <button
                   onClick={() => setActiveTab('dashboard')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'dashboard'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'dashboard'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   Dashboard
                 </button>
                 <button
                   onClick={() => setActiveTab('courses')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'courses'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'courses'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   Browse Courses
                 </button>
                 <button
                   onClick={() => setActiveTab('lesson')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'lesson'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'lesson'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   Current Lesson
                 </button>
                 <button
                   onClick={() => setActiveTab('practice')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'practice'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'practice'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   Practice
                 </button>
                 <button
                   onClick={() => setActiveTab('singing')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'singing'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'singing'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   Singing Practice
                 </button>
                 <button
                   onClick={() => setActiveTab('feedback')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'feedback'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'feedback'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   {userRole === 'instructor' ? 'Give Feedback' : 'My Progress'}
                 </button>
                 <button
                   onClick={() => setActiveTab('certificates')}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === 'certificates'
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'certificates'
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
+                    }`}
                 >
                   Certificates
                 </button>

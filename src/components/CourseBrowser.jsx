@@ -1,46 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const CourseBrowser = () => {
+const CourseBrowser = ({ userRole, userId, onEnroll }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const availableCourses = [
-    {
-      id: 1,
-      title: 'Fundamentals of Vocal Training',
-      instructor: 'Sarah Johnson',
-      level: 'Beginner',
-      duration: '8 weeks',
-      description: 'Master the basics of vocal training with professional techniques and guided exercises.',
-      enrolled: false
-    },
-    {
-      id: 2,
-      title: 'Advanced Pitch Control',
-      instructor: 'Michael Chen',
-      level: 'Advanced',
-      duration: '6 weeks',
-      description: 'Take your pitch control to the next level with advanced exercises and real-time feedback.',
-      enrolled: false
-    },
-    {
-      id: 3,
-      title: 'Vocal Style Development',
-      instructor: 'Emma Williams',
-      level: 'Intermediate',
-      duration: '10 weeks',
-      description: 'Develop your unique vocal style while learning various genres and techniques.',
-      enrolled: false
-    }
-  ];
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
 
-  const filteredCourses = availableCourses.filter(course =>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Only fetch user data if userId is provided
+        const [coursesResponse, userResponse] = await Promise.all([
+          axios.get('http://localhost:5000/api/courses'),
+          userId ? axios.get(`http://localhost:5000/api/users/${userId}`) : Promise.resolve({ data: { enrolledCourses: [] } })
+        ]);
+
+        setCourses(coursesResponse.data);
+        setEnrolledCourses(userResponse.data.enrolledCourses?.map(course => course._id || course) || []);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err.response?.data?.message || 'Error fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  const handleEnroll = async (courseId) => {
+    try {
+      setError(null);
+      await axios.post(`http://localhost:5000/api/courses/${courseId}/enroll`, {
+        userId
+      });
+      
+      // Fetch updated user data to get the latest enrolled courses
+      const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      setEnrolledCourses(userResponse.data.enrolledCourses?.map(course => course._id || course) || []);
+      
+      onEnroll?.(courseId); // Notify parent component if callback exists
+    } catch (err) {
+      console.error('Error enrolling in course:', err);
+      setError(err.response?.data?.message || 'Error enrolling in course');
+    }
+  };
+
+  const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    course.instructor.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.level.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  if (loading) return (
+    <div className="flex justify-center items-center min-h-[400px]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    </div>
   );
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Available Courses</h1>
         <div className="relative">
@@ -68,40 +98,46 @@ const CourseBrowser = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.map(course => (
-          <div key={course.id} className="card">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-semibold text-gray-800">{course.title}</h3>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                course.level === 'Beginner' ? 'bg-green-100 text-green-800' :
-                course.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-red-100 text-red-800'
-              }`}>
-                {course.level}
-              </span>
-            </div>
-            
-            <p className="text-gray-600 mb-4">{course.description}</p>
-            
-            <div className="flex items-center text-sm text-gray-500 mb-4">
-              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span>{course.instructor}</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-500 mb-6">
-              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{course.duration}</span>
-            </div>
+        {filteredCourses.map((course) => {
+          const isEnrolled = enrolledCourses.includes(course._id);
+          return (
+            <div key={course._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-xl font-semibold text-gray-800">{course.title}</h3>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    course.level === 'Beginner' ? 'bg-green-100 text-green-800' :
+                    course.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-red-100 text-red-800'
+                  }`}>
+                    {course.level}
+                  </span>
+                </div>
 
-            <button className="btn-primary w-full">
-              Enroll Now
-            </button>
-          </div>
-        ))}
+                <p className="text-gray-600 mb-4">{course.description}</p>
+                
+                <div className="flex justify-between items-center">
+                  <div className="text-sm text-gray-500">
+                    {course.lessons?.length || 0} Lessons
+                  </div>
+                  
+                  {userRole === 'student' && (
+                    isEnrolled ? (
+                      <span className="text-green-600 font-medium">Enrolled</span>
+                    ) : (
+                      <button
+                        onClick={() => handleEnroll(course._id)}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                      >
+                        Enroll Now
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
